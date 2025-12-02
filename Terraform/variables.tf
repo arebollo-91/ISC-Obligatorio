@@ -9,3 +9,21 @@ variable "perfil_admin" {
   type        = string
   default     = "default"
 }
+
+#Credenciales admin DB
+variable "db_username" {
+  description = "Usuario administrador de la base de datos"
+  type        = string
+}
+
+variable "db_password" {
+  description = "Password del usuario de la base de datos"
+  type        = string
+  sensitive   = true
+}
+
+variable "db_name" {
+  description = "Nombre de la base de datos a crear"
+  type        = string
+  default     = "isc_app_db"
+}

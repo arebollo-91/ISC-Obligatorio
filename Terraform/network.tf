@@ -103,9 +103,15 @@ resource "aws_subnet" "private_b" {
   }
 }
 
-#RT subredes privadas
+#RT subredes privadas y NAT
 resource "aws_route_table" "private_rt" {
   vpc_id = aws_vpc.isc_vpc.id
+
+  # Ruta por defecto desde las subredes privadas hacia Internet via NAT
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.public_nat.id
+  }
 
   tags = {
     Name     = "isc-private-rt"
@@ -124,3 +130,27 @@ resource "aws_route_table_association" "private_b_assoc" {
   subnet_id      = aws_subnet.private_b.id
   route_table_id = aws_route_table.private_rt.id
 }
+
+# Elastic IP para NAT Gateway
+resource "aws_eip" "nat_eip" {
+  domain = "vpc"
+
+  tags = {
+    Name     = "isc-nat-eip"
+    Proyecto = "ISC-Obligatorio"
+    Rol      = "nat"
+  }
+}
+
+#Salida a Internet de subredes privadas
+resource "aws_nat_gateway" "public_nat" {
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id     = aws_subnet.public_a.id
+
+  tags = {
+    Name     = "isc-nat-gw"
+    Proyecto = "ISC-Obligatorio"
+    Rol      = "nat"
+  }
+}
+

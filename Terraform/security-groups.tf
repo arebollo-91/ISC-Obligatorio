@@ -64,3 +64,34 @@ resource "aws_security_group" "alb_sg" {
     Rol      = "alb"
   }
 }
+
+#SG Base de datos
+resource "aws_security_group" "db_sg" {
+  name        = "isc-db-sg"
+  description = "SG base de datos en subredes privadas"
+  vpc_id      = aws_vpc.isc_vpc.id
+
+  egress {
+    description = "Trafico saliente de la base de datos"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name     = "isc-db-sg"
+    Proyecto = "ISC-Obligatorio"
+    Rol      = "db"
+  }
+}
+
+#Permitir MySQL solo desde el Security Group de las instancias web
+resource "aws_security_group_rule" "db_in_from_web" {
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.db_sg.id
+  source_security_group_id = aws_security_group.web_sg.id
+}

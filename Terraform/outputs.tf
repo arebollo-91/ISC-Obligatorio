@@ -1,4 +1,4 @@
-# Networking
+#Networking
 
 output "vpc_id" {
   description = "ID de la VPC principal del proyecto"
@@ -15,7 +15,7 @@ output "public_subnet_b_id" {
   value       = aws_subnet.public_b.id
 }
 
-# Instancia web1
+#Instancia web1
 output "web1_id" {
   description = "ID de la instancia EC2 web1"
   value       = aws_instance.web1.id
@@ -57,3 +57,13 @@ output "web2_public_dns" {
   value       = aws_instance.web2.public_dns
 }
 
+#DB
+output "db_endpoint" {
+  description = "Endpoint de la base de datos RDS"
+  value       = aws_db_instance.app_db.address
+}
+
+output "db_name" {
+  description = "Nombre de la base de datos aplicativa"
+  value       = aws_db_instance.app_db.db_name
+}
