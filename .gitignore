@@ -1,0 +1,15 @@
+# Carpetas internas de Terraform
+.terraform/
+**/.terraform/*
+
+# Archivos de estado (mejor no subirlos)
+terraform.tfstate
+terraform.tfstate.*
+
+# Logs de crash
+crash.log
+crash.*.log
+
+# Variables sensibles (no subir tfvars reales)
+*.tfvars
+*.tfvars.json
