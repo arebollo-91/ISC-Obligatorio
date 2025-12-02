@@ -13,7 +13,7 @@ La solución incluye red propia (VPC, subredes públicas y privadas), balanceo d
 ISC-Obligatorio/
 
 ├── Terraform/        # Código de infraestructura (archivos .tf)     
-└── diagrams/         # Diagramas de arquitectura 
+└── diagrama/         # Diagramas de arquitectura 
 
 Dentro de Terraform/ se encuentran:
 
