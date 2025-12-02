@@ -1,24 +1,10 @@
+#HTTP solo desde ALB
 resource "aws_security_group" "web_sg" {
   name        = "isc-web-sg"
   description = "SG para instancias web"
   vpc_id      = aws_vpc.isc_vpc.id
 
-  ingress {
-    description = "HTTP desde Internet"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "SSH laboratorio"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
+  # Solo definimos egress inline; las reglas de ingreso se manejan con aws_security_group_rule
   egress {
     description = "Trafico saliente"
     from_port   = 0
@@ -95,3 +81,27 @@ resource "aws_security_group_rule" "db_in_from_web" {
   security_group_id        = aws_security_group.db_sg.id
   source_security_group_id = aws_security_group.web_sg.id
 }
+
+#HTTP desde ALB hacia web
+resource "aws_security_group_rule" "web_http_in_from_alb" {
+  type                     = "ingress"
+  from_port                = 80
+  to_port                  = 80
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.web_sg.id
+  source_security_group_id = aws_security_group.alb_sg.id
+  description              = "HTTP desde el ALB"
+}
+
+# SSH abierto a todos (solo por motivos de lab)
+resource "aws_security_group_rule" "web_ssh_in_lab" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  security_group_id = aws_security_group.web_sg.id
+  cidr_blocks       = ["0.0.0.0/0"]
+  description       = "SSH laboratorio (0.0.0.0/0, a restringir en produccion)"
+}
+
+
