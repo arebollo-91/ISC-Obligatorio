@@ -4,7 +4,7 @@ resource "aws_vpc" "isc_vpc" {
   enable_dns_hostnames = true
 
   tags = {
-    Name = "isc-vpc-app"
+    Name     = "isc-vpc-app"
     Proyecto = "ISC-Obligatorio"
   }
 }
