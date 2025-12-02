@@ -3,10 +3,9 @@
 resource "aws_instance" "web1" {
   ami           = "ami-0fa3fe0fa7920f68e"
   instance_type = "t3.micro"
-
   subnet_id              = aws_subnet.public_a.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-
+  key_name               = "vokey"
   associate_public_ip_address = true
 
   tags = {
@@ -15,13 +14,23 @@ resource "aws_instance" "web1" {
     Rol      = "web"
   }
 
-  user_data = <<-EOF
+   user_data = <<-EOF
               #!/bin/bash
               dnf update -y
-              dnf install -y httpd
-              systemctl enable httpd
-              systemctl start httpd
-              echo "<h1>ISC Obligatorio - Servidor web 1</h1>" > /var/www/html/index.html
+
+              #Instalar Docker
+              dnf install -y docker
+              systemctl enable docker
+              systemctl start docker
+
+              #Opcional) dar permisos a ec2-user
+              usermod -aG docker ec2-user
+
+              #Levantar contenedor web en puerto 80
+              docker run -d \
+                --name webapp \
+                -p 80:80 \
+                nginx
               EOF
 }
 
@@ -29,7 +38,7 @@ resource "aws_instance" "web1" {
 resource "aws_instance" "web2" {
   ami           = "ami-0fa3fe0fa7920f68e"
   instance_type = "t3.micro"
-
+  key_name               = "vokey"
   subnet_id              = aws_subnet.public_b.id 
   vpc_security_group_ids = [aws_security_group.web_sg.id]
 
@@ -41,12 +50,23 @@ resource "aws_instance" "web2" {
     Rol      = "web"
   }
 
-  user_data = <<-EOF
+   user_data = <<-EOF
               #!/bin/bash
               dnf update -y
-              dnf install -y httpd
-              systemctl enable httpd
-              systemctl start httpd
-              echo "<h1>ISC Obligatorio - Servidor web 2</h1>" > /var/www/html/index.html
+
+              #Instalar Docker
+              dnf install -y docker
+              systemctl enable docker
+              systemctl start docker
+
+              #Permisos a ec2-user
+              usermod -aG docker ec2-user
+
+              #Levantar contenedor web en puerto 80
+              docker run -d \
+                --name webapp \
+                -p 80:80 \
+                nginx
+
               EOF
 }
