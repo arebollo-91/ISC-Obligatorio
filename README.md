@@ -44,9 +44,13 @@ terraform.tfvars – valores concretos de variables (no versionado en Git).
 Se asume que las credenciales se obtienen desde el entorno de laboratorio (por ejemplo, con el botón “Show credentials” del lab) y se configuran con AWS CLI:
 
 aws configure
+
 AWS Access Key ID: <access_key>
+
 AWS Secret Access Key: <secret_key>
+
 Default region name: us-east-1
+
 Default output format: json
 
 
@@ -63,12 +67,15 @@ db_password
 (opcionalmente) otras como vpc_cidr, public_subnet_a, etc.
 
 Los valores se cargan en un archivo terraform.tfvars que no se sube a Git.
-Ejemplo (no copiar tal cual a producción):
+
+Ejemplo:
 
 region      = "us-east-1"
+
 perfil_admin = "default"
 
 db_username = "admin"
+
 db_password = "cambiar_esta_contraseña"
 
 
@@ -79,9 +86,13 @@ Importante: mantener terraform.tfvars fuera del repositorio (.gitignore lo exclu
 Desde ISC-Obligatorio/Terraform:
 
 terraform init        # Descarga providers y prepara el backend local
+
 terraform validate    # Valida sintaxis y referencias
+
 terraform plan        # Muestra qué recursos se van a crear/modificar
+
 terraform apply       # Crea o actualiza la infraestructura
+
 Escribir: yes
 
 Al finalizar el apply se mostrarán los outputs definidos (por ejemplo, DNS del ALB, endpoint de RDS, IDs de subredes).
