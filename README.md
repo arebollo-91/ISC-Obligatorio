@@ -11,6 +11,7 @@ La solución incluye red propia (VPC, subredes públicas y privadas), balanceo d
 ### 1.1. Estructura de carpetas
 
 ISC-Obligatorio/
+
 ├── Terraform/        # Código de infraestructura (archivos .tf)     
 └── diagrams/         # Diagramas de arquitectura 
 
