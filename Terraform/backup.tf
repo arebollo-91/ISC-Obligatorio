@@ -27,7 +27,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "backups_lifecycle" {
     status = "Enabled"
 
     filter {
-      prefix = ""    #Todos los objetos del bucket
+      prefix = "" #Todos los objetos del bucket
     }
 
     #Enviar objetos a clase de almacenamiento Glacier

@@ -1,6 +1,6 @@
 #Subnet group para RDS utilizando las subredes privadas
 resource "aws_db_subnet_group" "db_subnets" {
-  name       = "isc-db-subnet-group"
+  name = "isc-db-subnet-group"
   subnet_ids = [
     aws_subnet.private_a.id,
     aws_subnet.private_b.id
@@ -15,15 +15,15 @@ resource "aws_db_subnet_group" "db_subnets" {
 
 #Instancia RDS MySQL en subredes privadas
 resource "aws_db_instance" "app_db" {
-  identifier        = "isc-app-db"
-  engine            = "mysql"
-  engine_version    = "8.0"
-  instance_class    = "db.t3.micro"
+  identifier     = "isc-app-db"
+  engine         = "mysql"
+  engine_version = "8.0"
+  instance_class = "db.t3.micro"
 
   allocated_storage = 20
-  
+
   #Backups automaticos DB
-  backup_retention_period = 7           # dias de retencion de backups automaticos
+  backup_retention_period = 7 # dias de retencion de backups automaticos
 
   db_name  = var.db_name
   username = var.db_username
@@ -38,9 +38,9 @@ resource "aws_db_instance" "app_db" {
   #No exponer la DB directamente a Internet
   publicly_accessible = false
 
-  skip_final_snapshot = true   # entorno de laboratorio
+  skip_final_snapshot = true # entorno de laboratorio
 
-  deletion_protection = false  # para poder destruir en el lab sin problemas
+  deletion_protection = false # para poder destruir en el lab sin problemas
 
   tags = {
     Name     = "isc-app-db"

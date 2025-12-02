@@ -1,11 +1,12 @@
 #Web1 instance
 
 resource "aws_instance" "web1" {
-  ami           = "ami-0fa3fe0fa7920f68e"
-  instance_type = "t3.micro"
+  ami                    = "ami-0fa3fe0fa7920f68e"
+  instance_type          = "t3.micro"
+  key_name               = "vockey"
   subnet_id              = aws_subnet.public_a.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-  key_name               = "vokey"
+
   associate_public_ip_address = true
 
   tags = {
@@ -14,7 +15,7 @@ resource "aws_instance" "web1" {
     Rol      = "web"
   }
 
-   user_data = <<-EOF
+  user_data = <<-EOF
               #!/bin/bash
               dnf update -y
 
@@ -36,10 +37,10 @@ resource "aws_instance" "web1" {
 
 #Web2 Instance
 resource "aws_instance" "web2" {
-  ami           = "ami-0fa3fe0fa7920f68e"
-  instance_type = "t3.micro"
-  key_name               = "vokey"
-  subnet_id              = aws_subnet.public_b.id 
+  ami                    = "ami-0fa3fe0fa7920f68e"
+  instance_type          = "t3.micro"
+  key_name               = "vockey"
+  subnet_id              = aws_subnet.public_b.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
 
   associate_public_ip_address = true
@@ -50,7 +51,7 @@ resource "aws_instance" "web2" {
     Rol      = "web"
   }
 
-   user_data = <<-EOF
+  user_data = <<-EOF
               #!/bin/bash
               dnf update -y
 
